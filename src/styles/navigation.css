@@ -1,0 +1,66 @@
+/* Navigation Base */
+nav {
+  padding: 1rem;
+  border-right: 1px solid #eaeaea;
+}
+
+/* Navigation Lists */
+.nav-root,
+.nav-children,
+.nav-grandchildren {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-children,
+.nav-grandchildren {
+  padding-left: 1rem;
+}
+
+/* Navigation Items */
+.nav-item,
+.nav-child-item,
+.nav-grandchild-item {
+  margin: 0rem 0;
+}
+
+/* Links and Text */
+.nav-link,
+.nav-section-title {
+  padding: 0.3rem 0;
+  display: block;
+}
+
+.nav-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+    font-style: italic;
+}
+
+.nav-link.active {
+    font-style: italic;
+}
+
+.nav-section-title {
+    opacity: 0.3;
+
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  nav {
+    border-right-color: #333;
+  }
+
+  .nav-link.active {
+    font-weight: 500;
+  }
+
+  .nav-section-title {
+    color: #999;
+  }
+} 

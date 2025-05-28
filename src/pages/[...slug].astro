@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'; // Adjust path as needed
+
+export async function getStaticPaths() {
+  // Get all content files
+  const contentModules = import.meta.glob('/src/content/**/*.{md,mdx}', { 
+    eager: true 
+  });
+  
+  const paths: Array<{ params: { slug: string | undefined }, props: any }> = [];
+  
+  Object.entries(contentModules).forEach(([filePath, module]: [string, any]) => {
+    // Skip drafts in production
+    if (module.frontmatter?.draft && import.meta.env.PROD) return;
+    
+    const relativePath = filePath
+      .replace('/src/content/', '')
+      .replace(/\.(md|mdx)$/, '');
+    
+    if (relativePath.endsWith('/index')) {
+      // Handle index files - they represent their parent folder
+      const folderPath = relativePath.replace(/\/index$/, '');
+      
+      paths.push({
+        params: { slug: folderPath || undefined }, // undefined for root index (handled by index.astro)
+        props: { 
+          module,
+          isIndex: true,
+          filePath: relativePath,
+          originalPath: folderPath
+        }
+      });
+    } else {
+      // Handle regular files
+      paths.push({
+        params: { slug: relativePath },
+        props: { 
+          module,
+          isIndex: false,
+          filePath: relativePath,
+          originalPath: relativePath
+        }
+      });
+    }
+  });
+  
+  return paths;
+}
+
+const { slug } = Astro.params;
+const { module, isIndex, filePath, originalPath } = Astro.props;
+
+// Get the content and frontmatter
+const Content = module.default;
+const frontmatter = module.frontmatter;
+
+// Skip drafts in production
+if (frontmatter.draft && import.meta.env.PROD) {
+  return Astro.redirect('/404');
+}
+
+// Set page title
+const pageTitle = frontmatter.title || 'Untitled';
+
+// Determine current URL for navigation
+const currentUrl = Astro.url.pathname;
+---
+
+<BaseLayout title={pageTitle}>
+    <article>
+      <header>
+        <div class="breadcrumb">
+          <a href="/">Archive</a>
+          {originalPath && originalPath.split('/').map((part, index, array) => {
+            const pathSoFar = array.slice(0, index + 1).join('/');
+            const isLast = index === array.length - 1;
+            return (
+              <span>
+                <span class="separator"> / </span>
+                {isLast && !isIndex ? (
+                  <span class="current">{part}</span>
+                ) : (
+                  <a href={`/${pathSoFar}`}>{part}</a>
+                )}
+              </span>
+            );
+          })}
+        </div>
+        
+        <div class="meta">
+          {frontmatter.date && (
+            <time class="date">
+              {new Date(frontmatter.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </time>
+          )}
+          
+          {frontmatter.tags && (
+            <div class="tags">
+              {frontmatter.tags.map((tag: string) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+      
+      <div class="prose">
+        <Content />
+      </div>
+      
+      {/* Optional: Add navigation to sibling pages */}
+      <footer class="page-footer">
+        <div class="page-nav">
+          <!-- You could add prev/next navigation here -->
+        </div>
+      </footer>
+    </article>
+</BaseLayout>

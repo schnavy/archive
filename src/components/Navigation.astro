@@ -1,0 +1,79 @@
+---
+import { buildNavigation, isActiveNavItem } from '../utils/navigation';
+import '../styles/navigation.css';
+
+const navItems = await buildNavigation();
+const currentPath = Astro.url.pathname;
+
+// Helper to check if a URL represents a file or folder with index
+function isClickable(item: any): boolean {
+  // If it has an index file, it's clickable
+  if (item.hasIndex) return true;
+  
+  // If it has no children, it's a standalone file, so clickable
+  if (item.children.length === 0) return true;
+  
+  // If it has children but no index, it's just a folder - not clickable
+  return false;
+}
+---
+
+<nav>
+  <a href="/" class={`nav-link ${currentPath === '/' ? 'active' : ''}`}>Archive</a>
+  <br/>
+  
+  <ul class="nav-root">
+    {navItems.map((item) => (
+      <li class="nav-item">
+        {isClickable(item) ? (
+          <a 
+            href={item.url} 
+            class={`nav-link ${isActiveNavItem(item.url, currentPath) ? 'active' : ''}`}
+          >
+            {item.title}
+          </a>
+        ) : (
+          <span class="nav-section-title">{item.title}</span>
+        )}
+        
+        {item.children.length > 0 && (
+          <ul class="nav-children">
+            {item.children.map((child) => (
+              <li class="nav-child-item">
+                {isClickable(child) ? (
+                  <a 
+                    href={child.url} 
+                    class={`nav-link ${isActiveNavItem(child.url, currentPath) ? 'active' : ''}`}
+                  >
+                    {child.title}
+                  </a>
+                ) : (
+                  <span class="nav-section-title">{child.title}</span>
+                )}
+                
+                {child.children.length > 0 && (
+                  <ul class="nav-grandchildren">
+                    {child.children.map((grandChild) => (
+                      <li class="nav-grandchild-item">
+                        {isClickable(grandChild) ? (
+                          <a 
+                            href={grandChild.url} 
+                            class={`nav-link ${isActiveNavItem(grandChild.url, currentPath) ? 'active' : ''}`}
+                          >
+                            {grandChild.title}
+                          </a>
+                        ) : (
+                          <span class="nav-section-title">{grandChild.title}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>

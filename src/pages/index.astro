@@ -1,16 +1,43 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { slug as slugify } from 'github-slugger';
+
 
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Documentation">
+	<h1>Welcome to the Archive</h1>
+</BaseLayout>
+
+<style>
+	h1 {
+		margin-bottom: 2rem;
+	}
+
+	.collections {
+		display: grid;
+		gap: 2rem;
+	}
+
+	section h2 {
+		margin: 0 0 0.5rem 0;
+	}
+
+	section p {
+		margin: 0;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	span {
+		color: #666;
+	}
+</style>

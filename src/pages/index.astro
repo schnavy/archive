@@ -1,9 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
-import { slug as slugify } from 'github-slugger';
-
-
 ---
 
 <BaseLayout title="Documentation">
@@ -27,35 +23,3 @@ import { slug as slugify } from 'github-slugger';
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;👽
 </BaseLayout>
-
-<style>
-	h1 {
-		margin-bottom: 2rem;
-	}
-
-	.collections {
-		display: grid;
-		gap: 2rem;
-	}
-
-	section h2 {
-		margin: 0 0 0.5rem 0;
-	}
-
-	section p {
-		margin: 0;
-	}
-
-	a {
-		color: inherit;
-		text-decoration: none;
-	}
-
-	a:hover {
-		text-decoration: underline;
-	}
-
-	span {
-		color: #666;
-	}
-</style>

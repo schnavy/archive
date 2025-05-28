@@ -1,59 +1,3 @@
-/* Font Faces */
-@font-face {
-  font-family: 'Rosart';
-  src: url('/fonts/Rosart-Medium.woff2') format('woff2'),
-       url('/fonts/Rosart-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Rosart';
-  src: url('/fonts/Rosart-MediumItalic.woff2') format('woff2'),
-       url('/fonts/Rosart-MediumItalic.woff') format('woff');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Rosart';
-  src: url('/fonts/Rosart-SemiBold.woff2') format('woff2'),
-       url('/fonts/Rosart-SemiBold.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Rosart';
-  src: url('/fonts/Rosart-SemiBoldItalic.woff2') format('woff2'),
-       url('/fonts/Rosart-SemiBoldItalic.woff') format('woff');
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Rosart';
-  src: url('/fonts/Rosart-RegularItalic.woff2') format('woff2'),
-       url('/fonts/Rosart-RegularItalic.woff') format('woff');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-    font-family: 'Rosart';
-    src: url('/fonts/Rosart-Regular.woff2') format('woff2'),
-         url('/fonts/Rosart-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-
-/* Base Layout */
 :root {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 16px;
@@ -62,48 +6,79 @@
 body {
   margin: 0;
   padding: 0;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
-/* Grid Layout */
 .layout {
   display: grid;
   grid-template-columns: 250px 1fr;
   min-height: 100vh;
 }
 
-/* Main Content */
 main {
   padding: 1rem;
   width: 100%;
-  max-width: 70ch;
+  max-width: 65ch;
+
 }
 
-/* Typography */
-h1 {
-  font-size: 1.4rem;
-  margin: 0 0 1rem;
+h1, h2, h3, h4, h5, h6, p, blockquote{
+  text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6, p{
+  font-size: 1rem;
+  margin: .6rem 0;
   line-height: 1.2;
+}
+
+h1 {
+  /* font-size: 1rem; */
+  margin: 1rem 0;
   font-weight: 600;
 }
 
 h2 {
-  font-size: 1.2rem;
-  margin: 0 0 1rem;
+  /* font-size: 1rem; */
+  margin-top: 1rem;
   font-weight: 500;
 }
-
-h3, h4, h5, h6 {
-  font-size: 1rem;
+h3{
+  /* font-size: 1rem; */
+  margin-top: 1rem;
+  font-weight: 400;
+}
+h4, h5, h6 {
+  /* font-size: 1rem; */
   margin: 0 0 1rem;
   font-weight: 500;
 }
 
 p {
+}
+
+blockquote{
+  font-style: italic;
+}
+
+hr{
+  border: none;
+  border-top: 1px dashed #000000;
   margin: 1rem 0;
 }
 
-/* Content Elements */
+sup{
+  vertical-align: text-top;
+}
+
+sup a{
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 500;
+  font-size: .875rem;
+  line-height: 1;
+}
+
 .description {
   color: #666;
   font-size: 1.125rem;
@@ -115,8 +90,16 @@ article {
 }
 
 .prose{
-    font-size: 130%;
-    font-family: "Rosart", "Times New Roman", Times, serif;
+    /* font-size: 130%; */
+    /* font-family: "Rosart", "Times New Roman", Times, serif; */
+}
+
+.footnotes{
+  font-size: 1rem;
+}
+
+.footnotes p{
+  margin: 0.3rem 0;
 }
 
 .breadcrumb {
@@ -129,7 +112,6 @@ article {
     text-decoration: none;
 }
 
-/* Dark Mode */
 @media (prefers-color-scheme: dark) {
   body {
     background: #1a1a1a;

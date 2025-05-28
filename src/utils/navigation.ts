@@ -25,8 +25,9 @@ interface NavItem {
   
     const navTree: NavItem[] = [];
     const indexFiles = new Map<string, ContentModule>();
+    const regularFiles = new Map<string, ContentModule>();
     
-    // First pass: collect all index files
+    // First pass: collect all files
     Object.entries(contentModules).forEach(([filePath, module]) => {
       if (module.frontmatter?.draft) return;
       
@@ -37,6 +38,8 @@ interface NavItem {
       if (relativePath.endsWith('/index')) {
         const folderPath = relativePath.replace(/\/index$/, '');
         indexFiles.set(folderPath, module);
+      } else {
+        regularFiles.set(relativePath, module);
       }
     });
     
@@ -53,14 +56,18 @@ interface NavItem {
       if (!existingItem) {
         const hasIndex = indexFiles.has(currentPath);
         const indexData = indexFiles.get(currentPath);
+        const regularData = regularFiles.get(currentPath);
         
         existingItem = {
           title: hasIndex && indexData ? 
             indexData.frontmatter.title : 
+            regularData?.frontmatter.title || 
             currentPart.charAt(0).toUpperCase() + currentPart.slice(1).replace(/-/g, ' '),
           url: '/' + currentPath,
           children: [],
-          order: hasIndex && indexData ? indexData.frontmatter.order : undefined,
+          order: hasIndex && indexData ? 
+            indexData.frontmatter.order : 
+            regularData?.frontmatter.order,
           hasIndex: hasIndex
         };
         

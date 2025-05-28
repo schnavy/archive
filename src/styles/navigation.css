@@ -1,10 +1,10 @@
-/* Navigation Base */
 nav {
   padding: 1rem;
-  border-right: 1px solid #eaeaea;
+  position: sticky;
+  top: 0;
+  height: min-content;
 }
 
-/* Navigation Lists */
 .nav-root,
 .nav-children,
 .nav-grandchildren {
@@ -18,14 +18,12 @@ nav {
   padding-left: 1rem;
 }
 
-/* Navigation Items */
 .nav-item,
 .nav-child-item,
 .nav-grandchild-item {
   margin: 0rem 0;
 }
 
-/* Links and Text */
 .nav-link,
 .nav-section-title {
   padding: 0.3rem 0;
@@ -50,7 +48,6 @@ nav {
 
 }
 
-/* Dark Mode */
 @media (prefers-color-scheme: dark) {
   nav {
     border-right-color: #333;

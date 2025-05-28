@@ -4,7 +4,7 @@ description: ""
 order: 1
 ---
 
-# Melting and Infrastructure: Indexing a deep entanglement 
+# Melting and Infrastructure: <br/><i>Indexing a deep entanglement</i> 
 
 ## Introduction
 
@@ -27,9 +27,7 @@ The following part of the essay proposes an index of systems that are connected 
 
 Meltdown is both a material catastrophe and a metaphor for systems spiraling out of control. In a nuclear reactor’s core, metal alloys and uranium fuel rods literally melt when its cooling systems fail, causing a collapse of the entire system. Such events expose an infrastructure’s deep entanglement with nonhuman forces. The malfunction of a system or component inside an infrastructural network will therefore propagate and affect other seemingly unrelated infrastructures. A prominent example for that is Reactor 4 of the Chernobyl Nuclear Power Plant, which experienced a meltdown after a test failure, causing immense consequences—one of them being 6400 km² of land becoming unusable for humans due to high radiation [^infrastrukturtheorien2].
 
-The global energy infrastructure, which heavily relies on the burning of fossil fuels, is therefore a major cause for human-made climate change *(→ Glaciers and Polar Caps)*.
-
-Thus, *nuclear meltdown* illustrates how melting destabilizes infrastructure and binds human fate to nonhuman matter. There is no idea of totally controlling the environment.
+The global energy infrastructure, which heavily relies on the burning of fossil fuels, is therefore a major cause for human-made climate change *(→ Glaciers and Polar Caps)*. Thus, *nuclear meltdown* illustrates how melting destabilizes infrastructure and binds human fate to nonhuman matter. There is no idea of totally controlling the environment.
 
 ## Iron Casting
 

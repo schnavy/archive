@@ -5,6 +5,6 @@ import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   site: 'https://schnavy.github.io',
-  base: '/astro-base', // Only needed if deploying to a project repo
+  base: '/', // Only needed if deploying to a project repo
   output: 'static'
 });

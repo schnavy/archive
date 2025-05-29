@@ -1,7 +1,7 @@
 ---
 title: "Todo"
 description: ""
-order: 10
+order: 2
 ---
 # Todo
 - Order of nav items

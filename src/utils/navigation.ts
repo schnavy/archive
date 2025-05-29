@@ -1,196 +1,164 @@
-// src/utils/navigation.ts
 interface NavItem {
     title: string;
     url: string;
     children: NavItem[];
     order?: number;
-    hasIndex?: boolean;
-  }
-  
-  interface ContentModule {
+    type: 'page' | 'section' | 'external';
+    external?: boolean;
+}
+
+interface ContentModule {
     frontmatter: {
-      title: string;
-      order?: number;
-      draft?: boolean;
-      [key: string]: any;
+        title: string;
+        order?: number;
+        draft?: boolean;
+        isPage?: boolean;
+        external?: string;
+        [key: string]: any;
     };
     default?: any;
-  }
-  
-  export async function buildNavigation(): Promise<NavItem[]> {
-    // Get all markdown/mdx files from content directory
-    const contentModules = import.meta.glob('/src/content/**/*.{md,mdx}', { 
-      eager: true 
+    content?: string;
+}
+
+export async function buildNavigation(): Promise<NavItem[]> {
+    const contentModules = import.meta.glob('/src/content/**/*.{md,mdx}', {
+        eager: true
     }) as Record<string, ContentModule>;
-  
+
     const navTree: NavItem[] = [];
-    const indexFiles = new Map<string, ContentModule>();
-    const regularFiles = new Map<string, ContentModule>();
-    
-    // First pass: collect all files
+    const allFiles = new Map<string, ContentModule>();
+    const folderIndexes = new Map<string, ContentModule>();
+
+    // Collect and categorize all files
     Object.entries(contentModules).forEach(([filePath, module]) => {
-      if (module.frontmatter?.draft) return;
-      
-      const relativePath = filePath
-        .replace('/src/content/', '')
-        .replace(/\.(md|mdx)$/, '');
-        
-      if (relativePath.endsWith('/index')) {
-        const folderPath = relativePath.replace(/\/index$/, '');
-        indexFiles.set(folderPath, module);
-      } else {
-        regularFiles.set(relativePath, module);
-      }
+        if (module.frontmatter?.draft) return;
+
+        const relativePath = filePath
+            .replace('/src/content/', '')
+            .replace(/\.(md|mdx)$/, '');
+
+        allFiles.set(relativePath, module);
+
+        if (relativePath.endsWith('/index')) {
+            const folderPath = relativePath.replace(/\/index$/, '');
+            folderIndexes.set(folderPath, module);
+        }
     });
-    
-    // Helper function to find or create nav item at specific path
-    function findOrCreateNavItem(pathParts: string[], level: NavItem[]): NavItem {
-      const currentPath = pathParts.join('/');
-      const currentPart = pathParts[pathParts.length - 1];
-      
-      let existingItem = level.find(item => {
-        const itemPath = item.url.replace(/^\//, '').replace(/\/$/, '');
-        return itemPath === currentPath;
-      });
-      
-      if (!existingItem) {
-        const hasIndex = indexFiles.has(currentPath);
-        const indexData = indexFiles.get(currentPath);
-        const regularData = regularFiles.get(currentPath);
-        
-        existingItem = {
-          title: hasIndex && indexData ? 
-            indexData.frontmatter.title : 
-            regularData?.frontmatter.title || 
-            currentPart.charAt(0).toUpperCase() + currentPart.slice(1).replace(/-/g, ' '),
-          url: '/' + currentPath,
-          children: [],
-          order: hasIndex && indexData ? 
-            indexData.frontmatter.order : 
-            regularData?.frontmatter.order,
-          hasIndex: hasIndex
-        };
-        
-        level.push(existingItem);
-      }
-      
-      return existingItem;
+
+    // Helper functions
+    function getDefaultTitle(path: string): string {
+        const lastPart = path.split('/').pop() || '';
+        return lastPart.charAt(0).toUpperCase() + lastPart.slice(1).replace(/-/g, ' ');
     }
-    
-    // Second pass: process all files
-    Object.entries(contentModules).forEach(([filePath, module]) => {
-      if (module.frontmatter?.draft) return;
-      
-      const relativePath = filePath
-        .replace('/src/content/', '')
-        .replace(/\.(md|mdx)$/, '');
-      
-      // Skip index files (they're handled by findOrCreateNavItem)
-      if (relativePath.endsWith('/index')) {
-        return;
-      }
-      
-      const pathParts = relativePath.split('/');
-      
-      // Handle top-level pages (no folder structure)
-      if (pathParts.length === 1) {
-        navTree.push({
-          title: module.frontmatter.title || pathParts[0].charAt(0).toUpperCase() + pathParts[0].slice(1),
-          url: '/' + relativePath,
-          children: [],
-          order: module.frontmatter.order,
-          hasIndex: false
-        });
-        return;
-      }
-      
-      // Handle nested files
-      let currentLevel = navTree;
-      
-      // Create/navigate through all folder levels
-      for (let i = 0; i < pathParts.length - 1; i++) {
-        const folderParts = pathParts.slice(0, i + 1);
-        const folderItem = findOrCreateNavItem(folderParts, currentLevel);
-        currentLevel = folderItem.children;
-      }
-      
-      // Add the actual file
-      currentLevel.push({
-        title: module.frontmatter.title || pathParts[pathParts.length - 1].charAt(0).toUpperCase() + pathParts[pathParts.length - 1].slice(1),
-        url: '/' + relativePath,
-        children: [],
-        order: module.frontmatter.order,
-        hasIndex: false
-      });
+
+    function ensurePathExists(pathParts: string[]): NavItem[] {
+        let currentLevel = navTree;
+
+        for (let i = 0; i < pathParts.length - 1; i++) {
+            const folderPath = pathParts.slice(0, i + 1).join('/');
+            const folderUrl = '/' + folderPath;
+
+            let folderItem = currentLevel.find(item => item.url === folderUrl || item.url.startsWith('http'));
+
+            if (!folderItem) {
+                const indexData = folderIndexes.get(folderPath);
+                const isExternal = !!indexData?.frontmatter.external;
+
+                folderItem = {
+                    title: indexData?.frontmatter.title || getDefaultTitle(folderPath),
+                    url: isExternal ? indexData!.frontmatter.external! : folderUrl,
+                    children: [],
+                    order: indexData?.frontmatter.order ?? -1,
+                    type: isExternal ? 'external' : (indexData?.frontmatter.isPage ? 'page' : 'section'),
+                    external: isExternal
+                };
+
+                currentLevel.push(folderItem);
+            }
+
+            currentLevel = folderItem.children;
+        }
+
+        return currentLevel;
+    }
+
+    // Process all files
+    allFiles.forEach((module, relativePath) => {
+        if (relativePath.endsWith('/index')) return;
+
+        const pathParts = relativePath.split('/');
+        const isExternal = !!module.frontmatter.external;
+
+        const navItem: NavItem = {
+            title: module.frontmatter.title || getDefaultTitle(pathParts[pathParts.length - 1]),
+            url: isExternal ? module.frontmatter.external! : '/' + relativePath,
+            children: [],
+            order: module.frontmatter.order,
+            type: isExternal ? 'external' : 'page',
+            external: isExternal
+        };
+
+        if (pathParts.length === 1) {
+            navTree.push(navItem);
+        } else {
+            const targetLevel = ensurePathExists(pathParts);
+            targetLevel.push(navItem);
+        }
     });
-    
+
     // Sort function
-    const sortNavItems = (items: NavItem[]): void => {
-      items.sort((a, b) => {
-        // Items with index pages first
-        if (a.hasIndex && !b.hasIndex) return -1;
-        if (!a.hasIndex && b.hasIndex) return 1;
-        
-        // Then sort by order
-        const aOrder = a.order ?? 999;
-        const bOrder = b.order ?? 999;
-        if (aOrder !== bOrder) return aOrder - bOrder;
-        
-        // Finally sort alphabetically
-        return a.title.localeCompare(b.title);
-      });
-      
-      // Sort children recursively
-      items.forEach(item => {
-        if (item.children.length > 0) {
-          sortNavItems(item.children);
-        }
-      });
-    };
-    
-    // Sort the entire tree
+    function sortNavItems(items: NavItem[]): void {
+        items.sort((a, b) => {
+            if (a.order === b.order) {
+                if (a.type === 'page' && b.type === 'section') return -1;
+                if (a.type === 'section' && b.type === 'page') return 1;
+            }
+
+            const aOrder = a.order ?? 999;
+            const bOrder = b.order ?? 999;
+            if (aOrder !== bOrder) return aOrder - bOrder;
+
+            return a.title.localeCompare(b.title);
+        });
+
+        items.forEach(item => {
+            if (item.children.length > 0) {
+                sortNavItems(item.children);
+            }
+        });
+    }
+
     sortNavItems(navTree);
-    
     return navTree;
-  }
-  
-  // Helper function to get breadcrumbs for current page
-  export function getBreadcrumbs(currentPath: string, navTree: NavItem[]): NavItem[] {
+}
+
+export function isClickable(item: NavItem): boolean {
+    return item.type === 'page' || item.type === 'external';
+}
+
+export function getBreadcrumbs(currentPath: string, navTree: NavItem[]): NavItem[] {
     const breadcrumbs: NavItem[] = [];
-    
+
     const findPath = (items: NavItem[], path: string): boolean => {
-      for (const item of items) {
-        // Check for exact match or if current path starts with item path
-        if (item.url === path || (path.startsWith(item.url) && item.url !== '/')) {
-          breadcrumbs.push(item);
-          
-          if (item.url === path) {
-            return true;
-          }
-          
-          if (item.children.length > 0 && findPath(item.children, path)) {
-            return true;
-          }
+        for (const item of items) {
+            if (item.url === path || (path.startsWith(item.url + '/') && item.url !== '/')) {
+                breadcrumbs.push(item);
+
+                if (item.url === path) return true;
+                if (item.children.length > 0 && findPath(item.children, path)) return true;
+            }
         }
-      }
-      return false;
+        return false;
     };
-    
+
     findPath(navTree, currentPath);
     return breadcrumbs;
-  }
-  
-  // Helper function to check if a nav item is active
-  export function isActiveNavItem(itemUrl: string, currentPath: string): boolean {
-    // Remove trailing slashes for comparison
+}
+
+export function isActiveNavItem(itemUrl: string, currentPath: string): boolean {
     const cleanItemUrl = itemUrl.replace(/\/$/, '') || '/';
     const cleanCurrentPath = currentPath.replace(/\/$/, '') || '/';
-    
-    // Exact match
+
     if (cleanItemUrl === cleanCurrentPath) return true;
-    
-    // Parent path match (for folders)
-    if (cleanCurrentPath.startsWith(cleanItemUrl + '/') && cleanItemUrl !== '/') return true;
-    
-    return false;
-  }
+    return cleanCurrentPath.startsWith(cleanItemUrl + '/') && cleanItemUrl !== '/';
+}

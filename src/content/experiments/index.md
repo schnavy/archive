@@ -1,5 +1,4 @@
 ---
-title: Experiments
-description: Learn how to use our platform
-order: 0
+title: "Experiments"
+order: 7
 ---

@@ -1,6 +1,7 @@
 ---
 title: "About"
-description: ""
+description: "Description of the About page"
 order: 0
 ---
-About
+# About Content
+Bla bla bla

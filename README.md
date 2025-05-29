@@ -1,4 +1,4 @@
-# A-b+M-d+W-s (Astro-based)+(Markdown-driven)+(Wiki-style)
+# A-b+M-d+W-s (Astro-based)+(Markdown-driven)+(Wiki-style) Setup for general Archiving
 
 - Dynamically mirroring folder structure from /content
 - Infinite nesting, with optinal index pages for folders

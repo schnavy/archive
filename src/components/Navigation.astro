@@ -11,7 +11,7 @@ const currentPath = Astro.url.pathname;
     <a href="/" class={`nav-link ${currentPath === '/' ? 'active' : ''}`}>🐸</a>
     <ul class="nav-root">
         {navItems.map((item) => (
-                <NavItem item={item} currentPath={currentPath} depth={0}/>
+            <NavItem item={item} currentPath={currentPath} depth={0}/>
         ))}
     </ul>
 </nav>

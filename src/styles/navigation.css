@@ -43,7 +43,7 @@ nav {
 
 /* Base nav item styles */
 .nav-item {
-    padding: 0.15rem 0;
+    padding: 0.1rem 0;
     position: relative;
 }
 
@@ -79,7 +79,9 @@ nav {
 }
 
 .nav-item > .nav-link:hover, .nav-item.active > .nav-link {
-    font-style: italic;
+    font-style: normal;
+    transform: translateX(2px);
+    transition: transform 350ms ease-out;
 }
 
 /* External link indicators override depth indicators */
@@ -94,7 +96,7 @@ nav {
 /* Base link and section styles - keep consistent typography */
 .nav-link,
 .nav-section-title {
-    padding: 0.15rem 0;
+    padding: 0.1rem 0;
     display: block;
     font-size: 1rem;
     font-weight: normal;
@@ -103,14 +105,6 @@ nav {
 
 .nav-link {
     text-decoration: none;
-}
-
-.nav-link:hover {
-    font-style: italic;
-}
-
-.nav-item.active {
-    font-style: italic;
 }
 
 /* Section title styling - same as links */

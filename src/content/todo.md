@@ -1,9 +1,11 @@
 ---
-title: "Todo"
+title: "*Todo*"
 description: ""
-order: 2
+order: 100
 ---
 # Todo
-- Order of nav items
+- ~~Order of nav items~~
+- ~~add content documentation~~
+- ~~add infinite nesting~~
 - add images
 - parse youtube links as embedded

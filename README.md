@@ -1,4 +1,4 @@
-### Astro Base for Markdown-based Wiki
+# Astro Base for Markdown-based Wiki
 
 - Dynamically mirroring folder structure from /content
 - Enabling Hosting and Editing on Github
@@ -6,7 +6,7 @@
 
 🐸
 
-## File Structure
+### File Structure
 
 All content files go in the `/src/content/` directory. The navigation is automatically generated based on your file
 structure.
@@ -23,7 +23,7 @@ src/content/
     └── web-project.md         # Sub-page
 ```
 
-## Frontmatter Options
+### Frontmatter Options
 
 Each markdown file supports these frontmatter attributes:
 
@@ -39,7 +39,7 @@ description: "Page desc"      # Not used by navigation (optional)
 ---
 ```
 
-## Notes
+### Notes
 
 - Standalone Pages cannot be named "index.md". This name is reserved for the configurations and content of the folder node
 - Keep folder names lowercase with hyphens (e.g., `research-projects`)

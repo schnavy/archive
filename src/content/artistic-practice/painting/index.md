@@ -1,4 +1,4 @@
 ---
 title: "Painting"
-order: 1
+order: 50
 ---

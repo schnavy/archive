@@ -1,4 +1,4 @@
 ---
-title: "Artistic Practice"
+title: "Projects"
 order: 3
 ---

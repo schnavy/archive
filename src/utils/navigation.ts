@@ -160,8 +160,5 @@ export function getBreadcrumbs(currentPath: string, navTree: NavItem[]): NavItem
 export function isActiveNavItem(itemUrl: string, currentPath: string): boolean {
     const cleanItemUrl = itemUrl.replace(/\/$/, '') || '/';
     const cleanCurrentPath = currentPath.replace(/\/$/, '') || '/';
-
-    console.log(cleanItemUrl, cleanCurrentPath);
     return (cleanItemUrl === cleanCurrentPath);
-    /*return cleanCurrentPath.startsWith(cleanItemUrl + '/') && cleanItemUrl !== '/';*/
 }

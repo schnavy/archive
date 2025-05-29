@@ -121,24 +121,9 @@ nav {
 
 /* Dark mode adjustments */
 @media (prefers-color-scheme: dark) {
-    nav {
-        border-right-color: #333;
-    }
-
-    .nav-link.active {
-        font-weight: 500;
-    }
-
     .nav-section-title {
         color: #999;
     }
-}
-
-/* Focus styles for accessibility */
-.nav-link:focus {
-    outline: 2px solid #a1f100;
-    outline-offset: 2px;
-    border-radius: 2px;
 }
 
 /* Responsive adjustments */

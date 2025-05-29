@@ -18,27 +18,21 @@ const isClickable = item.type === 'page' || item.type === 'external';
 const isExternal = item.type === 'external';
 const hasChildren = item.children && item.children.length > 0;
 const depthClass = `nav-level-${depth}`;
-const indentSymbol = depth > 0 ? '⤷' : '';
 ---
 
 <li class={`nav-item ${item.type} ${depthClass} ${isActiveNavItem(item.url, currentPath) ? 'active' : ''} ${item.type}`}>
     {isClickable ? (
-            <a
-                    href={item.url}
-                    class={`nav-link`}
-                    target={isExternal ? '_blank' : undefined}
-                    rel={isExternal ? 'noopener noreferrer' : undefined}
-            >
-                {item.title}
-            </a>
+        <a href={item.url} class={`nav-link`} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noopener noreferrer' : undefined}>
+            {item.title}
+        </a>
     ) : (
-            <span class="nav-section-title">{item.title}</span>
+        <span class="nav-section-title">{item.title}</span>
     )}
     {hasChildren && (
-            <ul class={`nav-children ${depthClass}-children`}>
-                {item.children.map((child) => (
-                        <Astro.self item={child} currentPath={currentPath} depth={depth + 1} />
-                ))}
-            </ul>
+        <ul class={`nav-children ${depthClass}-children`}>
+            {item.children.map((child) => (
+                <Astro.self item={child} currentPath={currentPath} depth={depth + 1} />
+            ))}
+        </ul>
     )}
 </li>

@@ -1,6 +1,7 @@
 # A-b+M-d+W-s (Astro-based)+(Markdown-driven)+(Wiki-style)
 
 - Dynamically mirroring folder structure from /content
+- Infinite nesting, with optinal index pages for folders
 - Enabling Hosting and Editing on Github
 - Fully staticaly generated on each change
 

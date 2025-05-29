@@ -1,4 +1,4 @@
-# Astro Base for Markdown-based Wiki
+# (Astro-based) (markdown-driven) (wiki-style)
 
 - Dynamically mirroring folder structure from /content
 - Enabling Hosting and Editing on Github

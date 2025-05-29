@@ -1,5 +1,6 @@
 ---
-import {buildNavigation, isActiveNavItem} from "../utils/navigation";
+import {buildNavigation} from "../utils/navigation";
+import NavItem from "./NavItem.astro";
 import '../styles/navigation.css';
 
 const navItems = await buildNavigation();
@@ -10,63 +11,7 @@ const currentPath = Astro.url.pathname;
     <a href="/" class={`nav-link ${currentPath === '/' ? 'active' : ''}`}>🐸</a>
     <ul class="nav-root">
         {navItems.map((item) => (
-                <li class="nav-item">
-                    {item.type === 'page' || item.type === 'external' ? (
-                            <a
-                                    href={item.url}
-                                    class={`nav-link ${isActiveNavItem(item.url, currentPath) ? 'active' : ''}`}
-                                    target={item.type === 'external' ? '_blank' : undefined}
-                                    rel={item.type === 'external' ? 'noopener noreferrer' : undefined}
-                            >
-                                {item.title}
-                                {item.type === 'external' && <span class="external-icon">↗</span>}
-                            </a>
-                    ) : (
-                            <span class="nav-section-title">{item.title}</span>
-                    )}
-                    {item.children.length > 0 && (
-                            <ul class="nav-children">
-                                {item.children.map((child) => (
-                                        <li class="nav-child-item">
-                                            {child.type === 'page' || child.type === 'external' ? (
-                                                    <a
-                                                            href={child.url}
-                                                            class={`nav-link ${isActiveNavItem(child.url, currentPath) ? 'active' : ''}`}
-                                                            target={child.type === 'external' ? '_blank' : undefined}
-                                                            rel={child.type === 'external' ? 'noopener noreferrer' : undefined}
-                                                    >
-                                                        {child.title}
-                                                        {child.type === 'external' && <span class="external-icon">↗</span>}
-                                                    </a>
-                                            ) : (
-                                                    <span class="nav-section-title">{child.title}</span>
-                                            )}
-                                            {child.children.length > 0 && (
-                                                    <ul class="nav-grandchildren">
-                                                        {child.children.map((grandChild) => (
-                                                                <li class="nav-grandchild-item">
-                                                                    {grandChild.type === 'page' || grandChild.type === 'external' ? (
-                                                                            <a
-                                                                                    href={grandChild.url}
-                                                                                    class={`nav-link ${isActiveNavItem(grandChild.url, currentPath) ? 'active' : ''}`}
-                                                                                    target={grandChild.type === 'external' ? '_blank' : undefined}
-                                                                                    rel={grandChild.type === 'external' ? 'noopener noreferrer' : undefined}
-                                                                            >
-                                                                                {grandChild.title}
-                                                                                {grandChild.type === 'external' && <span class="external-icon">↗</span>}
-                                                                            </a>
-                                                                    ) : (
-                                                                            <span class="nav-section-title">{grandChild.title}</span>
-                                                                    )}
-                                                                </li>
-                                                        ))}
-                                                    </ul>
-                                            )}
-                                        </li>
-                                ))}
-                            </ul>
-                    )}
-                </li>
+                <NavItem item={item} currentPath={currentPath} depth={0} />
         ))}
     </ul>
 </nav>

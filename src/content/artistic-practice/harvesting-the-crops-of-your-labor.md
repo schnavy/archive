@@ -5,7 +5,8 @@ order: 2
 ---
 
 # \[Harvesting] The Crops of Your Labor
-Installation and ongoing computational process, 2025
+
+_Installation and ongoing computational process, 2025_
 
 Like a relentless harvesting machine in high season, reaping the fields lane by lane, the computational process at the core of this work fetches over two billion images—row by row from several large, publicly available image datasets—detects and extracts the objects from each one, and writes them to a physical hard drive.
 

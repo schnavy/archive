@@ -1,3 +1,4 @@
+// src/utils/navigation.ts
 interface NavItem {
     title: string;
     url: string;
@@ -14,6 +15,7 @@ interface ContentModule {
         draft?: boolean;
         isPage?: boolean;
         external?: string;
+        date?: string; // ISO date format (YYYY-MM-DD) or full datetime (YYYY-MM-DDTHH:MM:SS)
         [key: string]: any;
     };
     default?: any;
@@ -159,6 +161,7 @@ export function isActiveNavItem(itemUrl: string, currentPath: string): boolean {
     const cleanItemUrl = itemUrl.replace(/\/$/, '') || '/';
     const cleanCurrentPath = currentPath.replace(/\/$/, '') || '/';
 
-    if (cleanItemUrl === cleanCurrentPath) return true;
-    return cleanCurrentPath.startsWith(cleanItemUrl + '/') && cleanItemUrl !== '/';
+    console.log(cleanItemUrl, cleanCurrentPath);
+    return (cleanItemUrl === cleanCurrentPath);
+    /*return cleanCurrentPath.startsWith(cleanItemUrl + '/') && cleanItemUrl !== '/';*/
 }

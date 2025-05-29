@@ -2,6 +2,7 @@
 title: "Melting and Infrastructure"
 description: ""
 order: 1
+date: 2024-01-01
 ---
 
 # Melting and Infrastructure: <br/><i>Indexing a deep entanglement</i> 

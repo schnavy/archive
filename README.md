@@ -1,6 +1,6 @@
 # (Astro-based) (Markdown-driven) (Wiki-style) Setup for general Archiving
 
-See live: [https://github.com/schnavy/archive-base/tree/main](https://archive.davidwahrenburg.de/)
+See live: https://archive.davidwahrenburg.de/
 
 - Dynamically mirroring folder structure from /content
 - Infinite nesting, with optinal index pages for folders

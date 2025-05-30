@@ -71,6 +71,7 @@ button {
 }
 
 blockquote {
+    font-family: Serif, "Times New Roman", Times, serif;
     font-style: italic;
 }
 

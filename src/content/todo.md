@@ -7,5 +7,6 @@ order: 100
 - ~~Order of nav items~~
 - ~~add content documentation~~
 - ~~add infinite nesting~~
+- ~~add mobile navigation mechanic~~
 - add images
 - parse youtube links as embedded

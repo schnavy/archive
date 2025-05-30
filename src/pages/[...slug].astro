@@ -69,6 +69,10 @@ const currentUrl = Astro.url.pathname;
 <BaseLayout title={pageTitle}>
     <article>
         <header>
+            <button class="mobile-nav-toggle" aria-label="Open navigation">
+                <span class="open-icon">↩</span>
+                <span class="close-icon">↪</span>
+            </button>
             <div class="breadcrumb">
                 <a href="/">Archive</a>
                 {originalPath && originalPath.split('/').map((part, index, array) => {
@@ -119,3 +123,15 @@ const currentUrl = Astro.url.pathname;
         </footer>
     </article>
 </BaseLayout>
+
+<script>
+    const nav = document.querySelector('nav');
+    console.log('Nav element:', nav);
+    if (nav) {
+        const navOpen = document.querySelector('.mobile-nav-toggle');
+        navOpen?.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            navOpen.classList.toggle('open');
+        });
+    }
+</script>

@@ -1,8 +1,12 @@
 nav {
-    padding: 1rem;
+    padding: .5rem 1.5rem .5rem .8rem;
     position: sticky;
     top: 0;
     height: min-content;
+}
+
+.nav-wrapper {
+    width: 300px;
 }
 
 .nav-root,
@@ -108,18 +112,49 @@ nav {
 
 @media (max-width: 768px) {
     nav {
-        padding: 0.5rem;
+        padding: 0;
+        z-index: 100;
     }
 
-    .nav-children {
-        padding-left: 1rem;
+    .nav-wrapper {
+        width: auto;
+        pointer-events: none;
+        transition: width 0.2s ease-out;
+        transition-delay: 0.2s;
+
+        .nav-root {
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+
+            .nav-item {
+                transform: translateX(-2rem);
+                transition: all 0.3s ease-out;
+            }
+        }
     }
 
-    .nav-level-1-children,
-    .nav-level-2-children,
-    .nav-level-3-children,
-    .nav-level-4-children,
-    .nav-level-5-children {
-        padding-left: 1rem;
+    nav.open {
+        .nav-wrapper {
+            opacity: 1;
+            width: 80dvw;
+            pointer-events: all;
+            transition: width 0.3s ease-in-out;
+
+            .nav-root {
+                opacity: 1;
+                transition: opacity 0.3s ease-in-out;
+                transition-delay: 0.2s;
+
+                .nav-item {
+                    transform: translateX(0px);
+                    transition: all 0.4s ease-out;
+                    transition-delay: 0s;
+                }
+            }
+        }
     }
 }
+
+
+

@@ -3,10 +3,11 @@ nav {
     position: sticky;
     top: 0;
     height: min-content;
+    border-right: 1px dashed #a1f102;
 }
 
 .nav-wrapper {
-    width: 300px;
+    width: 230px;
 }
 
 .nav-root,
@@ -121,6 +122,8 @@ nav {
         pointer-events: none;
         transition: width 0.2s ease-out;
         transition-delay: 0.2s;
+        height: 100dvh;
+        overflow: hidden;
 
         .nav-root {
             padding: 1rem;
@@ -136,6 +139,7 @@ nav {
 
     nav.open {
         .nav-wrapper {
+            height: auto;
             opacity: 1;
             width: 80dvw;
             pointer-events: all;

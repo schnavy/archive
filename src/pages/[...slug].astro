@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'; // Adjust path as needed
+import Breadcrumb from '../components/Breadcrumb.astro'; // Adjust path as needed
 
 export async function getStaticPaths() {
     // Get all content files
@@ -73,23 +74,7 @@ const currentUrl = Astro.url.pathname;
                 <span class="open-icon">↩</span>
                 <span class="close-icon">↪</span>
             </button>
-            <div class="breadcrumb">
-                <a href="/">Archive</a>
-                {originalPath && originalPath.split('/').map((part, index, array) => {
-                    const pathSoFar = array.slice(0, index + 1).join('/');
-                    const isLast = index === array.length - 1;
-                    return (
-                            <span>
-                <span class="separator"> / </span>
-                                {isLast && !isIndex ? (
-                                        <span class="current">{part}</span>
-                                ) : (
-                                        <a href={`/${pathSoFar}`}>{part}</a>
-                                )}
-              </span>
-                    );
-                })}
-            </div>
+            <Breadcrumb originalPath={originalPath} isIndex={isIndex} />
             <div class="meta">
                 {frontmatter.date && (
                         <time class="date">

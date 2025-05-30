@@ -1,0 +1,79 @@
+---
+// components/Breadcrumb.astro
+export interface Props {
+    originalPath?: string;
+    isIndex?: boolean;
+}
+
+const { originalPath, isIndex } = Astro.props;
+
+// Function to get title for a given path
+async function getTitleForPath(path: string): Promise<string> {
+    try {
+        // Try to load the index file for this path first
+        const indexModule = await import(`/src/content/${path}/index.md`).catch(() => null) ||
+            await import(`/src/content/${path}/index.mdx`).catch(() => null);
+
+        if (indexModule?.frontmatter?.title) {
+            return indexModule.frontmatter.title;
+        }
+
+        // If no index file, try to load a file with the same name as the path segment
+        const pathSegment = path.split('/').pop();
+        const directModule = await import(`/src/content/${path}.md`).catch(() => null) ||
+            await import(`/src/content/${path}.mdx`).catch(() => null);
+
+        if (directModule?.frontmatter?.title) {
+            return directModule.frontmatter.title;
+        }
+
+        // Fallback to the path segment itself, formatted nicely
+        return pathSegment ? pathSegment.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : path;
+    } catch (error) {
+        // Fallback to formatted path segment
+        const pathSegment = path.split('/').pop();
+        return pathSegment ? pathSegment.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : path;
+    }
+}
+
+// Build breadcrumb data with titles
+const breadcrumbData = [];
+if (originalPath) {
+    const pathParts = originalPath.split('/');
+    for (let i = 0; i < pathParts.length; i++) {
+        const pathSoFar = pathParts.slice(0, i + 1).join('/');
+        const isLast = i === pathParts.length - 1;
+
+        try {
+            const title = await getTitleForPath(pathSoFar);
+            breadcrumbData.push({
+                path: pathSoFar,
+                title: title,
+                isLast: isLast && !isIndex
+            });
+        } catch (error) {
+            // Fallback to formatted path segment
+            const segment = pathParts[i];
+            breadcrumbData.push({
+                path: pathSoFar,
+                title: segment.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+                isLast: isLast && !isIndex
+            });
+        }
+    }
+}
+---
+
+<div class="breadcrumb">
+    <a href="/">Archive</a>
+    {breadcrumbData.map((crumb) => (
+            <span>
+            <span class="separator"> / </span>
+                {crumb.isLast ? (
+                        <span class="current">{crumb.title}</span>
+                ) : (
+                        <a href={`/${crumb.path}`}>{crumb.title}</a>
+                )}
+        </span>
+    ))}
+</div>

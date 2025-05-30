@@ -164,7 +164,6 @@ header {
     .layout {
         grid-template-columns: 0 fit-content(100%);
         transition: grid-template-columns 0.25s ease-out;
-        transition-delay: 0.15s;
 
         &:has(nav.open) {
             grid-template-columns: 80vw fit-content(100%);

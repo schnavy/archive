@@ -169,9 +169,22 @@ header {
         &:has(nav.open) {
             grid-template-columns: 80vw fit-content(100%);
             transition: grid-template-columns 0.25s ease-out;
+            overflow: hidden;
+            height: 100dvh;
 
             nav {
+                height: 100%;
                 overflow: hidden;
+
+                .nav-root {
+                    overflow: scroll;
+                    -ms-overflow-style: none; /* Internet Explorer 10+ */
+                    scrollbar-width: none; /* Firefox */
+
+                    &::-webkit-scrollbar {
+                        display: none; /* Safari and Chrome */
+                    }
+                }
             }
         }
 

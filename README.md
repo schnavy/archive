@@ -46,3 +46,4 @@ description: "Page desc"      # Not used by navigation (optional)
 - Keep folder names lowercase with hyphens (e.g., `research-projects`)
 - Use `order` values with gaps (1, 5, 10) to make reordering easier
 - External links work at any level (top-level, nested, or as index files)
+- When adding a base layer folder to the content directory, make sure to add it to th config file inside src/content/

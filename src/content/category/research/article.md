@@ -1,5 +1,5 @@
 ---
-title: "Infrastructure as Artistic Practice"
+title: "Article"
 order: 1
 ---
 

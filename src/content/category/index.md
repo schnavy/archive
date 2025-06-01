@@ -1,4 +1,4 @@
 ---
 title: "Projects"
-order: 3
+order: 1
 ---

@@ -3,7 +3,7 @@ nav {
     position: sticky;
     top: 0;
     height: calc(100dvh - 1rem);
-    border-right: 1px dashed #a1f102;
+    border-right: 1px dashed var(--color-highlight);
 }
 
 .nav-wrapper {
@@ -18,27 +18,7 @@ nav {
 }
 
 .nav-children {
-    padding-left: 1.2rem;
-}
-
-.nav-level-1-children {
-    padding-left: 1.2rem;
-}
-
-.nav-level-2-children {
-    padding-left: 1.2rem;
-}
-
-.nav-level-3-children {
-    padding-left: 1.2rem;
-}
-
-.nav-level-4-children {
-    padding-left: 1.2rem;
-}
-
-.nav-level-5-children {
-    padding-left: 1.2rem;
+    padding-left: .5rem;
 }
 
 /* Base nav item styles */
@@ -52,29 +32,29 @@ nav {
     content: "";
     position: absolute;
     transform: translateX(-130%);
-    color: #a1f100;
+    color: var(--color-highlight);
     transition: opacity 0.2s ease;
     opacity: 1;
 }
 
-/* Different indicators for different depths */
-.nav-level-1 > .nav-link::before {
-    padding-top: 0.1rem;
-    content: "⤷";
-}
+.nav-level-1 > .nav-link,
+.nav-level-2 > .nav-link,
+.nav-level-3 > .nav-link,
+.nav-level-4 > .nav-link,
+.nav-level-5 > .nav-link {
+    padding-left: 1rem;
 
-.nav-level-2 > .nav-link::before,
-.nav-level-3 > .nav-link::before,
-.nav-level-4 > .nav-link::before,
-.nav-level-5 > .nav-link::before {
-    content: "••";
+    &::before {
+        padding-top: 0.1rem;
+        content: "⤷";
+    }
 }
 
 /* Show indicators on hover for clickable items only */
 .nav-item.page > .nav-link:hover::before,
 .nav-item.external > .nav-link:hover::before,
 .nav-item.active > .nav-link::before {
-    color: #000000;
+    color: var(--color-text);
 }
 
 .nav-item > .nav-link:hover, .nav-item.active > .nav-link {
@@ -84,8 +64,12 @@ nav {
 }
 
 /* External link indicators override depth indicators */
-.nav-item.external > .nav-link::before {
-    content: "↗" !important;
+.nav-item.external > .nav-link {
+    padding-left: 1rem;
+
+    &::before {
+        content: "↗" !important;
+    }
 }
 
 .nav-item.section > .nav-link::before {
@@ -94,22 +78,17 @@ nav {
 
 .nav-link,
 .nav-section-title {
-    padding: 0.1rem 0;
+    padding: 0.05rem 0;
     display: block;
     font-size: 1rem;
     font-weight: normal;
-    color: inherit;
 }
 
 .nav-link {
+    color: var(--color-text);
     text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-    .nav-section-title {
-        color: #999;
-    }
-}
 
 @media (max-width: 768px) {
     nav {

@@ -15,7 +15,7 @@ interface ContentModule {
         draft?: boolean;
         isPage?: boolean;
         external?: string;
-        date?: string; // ISO date format (YYYY-MM-DD) or full datetime (YYYY-MM-DDTHH:MM:SS)
+        date?: string;
         [key: string]: any;
     };
     default?: any;
@@ -60,18 +60,19 @@ export async function buildNavigation(): Promise<NavItem[]> {
             const folderPath = pathParts.slice(0, i + 1).join('/');
             const folderUrl = '/' + folderPath;
 
-            let folderItem = currentLevel.find(item => item.url === folderUrl || item.url.startsWith('http'));
+            let folderItem = currentLevel.find(item => item.url === folderUrl);
 
             if (!folderItem) {
                 const indexData = folderIndexes.get(folderPath);
                 const isExternal = !!indexData?.frontmatter.external;
+                const isClickablePage = indexData?.frontmatter.isPage || isExternal;
 
                 folderItem = {
-                    title: indexData?.frontmatter.title || getDefaultTitle(folderPath),
+                    title: indexData?.frontmatter.title || getDefaultTitle(pathParts[i]),
                     url: isExternal ? indexData!.frontmatter.external! : folderUrl,
                     children: [],
                     order: indexData?.frontmatter.order ?? -1,
-                    type: isExternal ? 'external' : (indexData?.frontmatter.isPage ? 'page' : 'section'),
+                    type: isExternal ? 'external' : (isClickablePage ? 'page' : 'section'),
                     external: isExternal
                 };
 
@@ -86,9 +87,15 @@ export async function buildNavigation(): Promise<NavItem[]> {
 
     // Process all files
     allFiles.forEach((module, relativePath) => {
-        if (relativePath.endsWith('/index')) return;
-
         const pathParts = relativePath.split('/');
+        const isIndexFile = relativePath.endsWith('/index');
+
+        // Skip ALL index files - they're handled by ensurePathExists
+        // Index files are only used for folder configuration, not as separate nav items
+        if (isIndexFile) {
+            return;
+        }
+
         const isExternal = !!module.frontmatter.external;
 
         const navItem: NavItem = {

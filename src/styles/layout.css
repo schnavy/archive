@@ -22,6 +22,7 @@
     --color-text-muted: #7e7e7e;
     --color-highlight: #a1f100;
     --color-background: #fff;
+    --color-link: #0000ff;
 
     --font-size-lg: 1.125rem;
     --font-size-md: 1rem;
@@ -34,10 +35,11 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --color-text: #fff;
-        --color-text-muted: #aaa;
-        --color-highlight: #a1f100;
-        --color-background: #1a1a1a;
+        --color-text: #aeaeb6;
+        --color-text-muted: #797979;
+        --color-highlight: #96e700;
+        --color-background: #0a0a0f;
+        --color-link: #0089ff;
     }
 }
 
@@ -160,6 +162,9 @@ header {
                 color: var(--color-highlight);
             }
         }
+    }
+    a{
+        color: var(--color-link);
     }
 }
 
